@@ -15,6 +15,10 @@ Stack<T>::Stack(Stack&& other) {
 
 template<class T>
 Stack<T>& Stack<T>::operator=(const Stack<T>& other) {
+    if (&other == this) {
+        return *this;
+    }
+    
     if (m_array) {
         delete [] m_array;
     }
