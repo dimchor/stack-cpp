@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstring>
+#include <utility>
+
 #define DEFAULT_SIZE 4
 
 template<class T>
@@ -14,6 +17,11 @@ private:
     void autoDealloc();
 public:
     Stack();
+
+    Stack(const Stack&);
+    Stack(Stack&&);
+    Stack& operator=(const Stack&);
+    Stack& operator=(Stack&&);
 
     void push(const T&);
     void pop();

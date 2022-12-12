@@ -4,6 +4,45 @@ Stack<T>::Stack() {
 }
 
 template<class T>
+Stack<T>::Stack(const Stack<T>& other) {
+    *this = other;
+}
+
+template<class T>
+Stack<T>::Stack(Stack&& other) {
+    *this = std::move(other);
+}
+
+template<class T>
+Stack<T>& Stack<T>::operator=(const Stack<T>& other) {
+    if (m_array) {
+        delete [] m_array;
+    }
+
+    m_size = other.m_size;
+    m_array = new T [m_size];
+    std::memcpy(m_array, other.m_array, sizeof(T) * m_size);
+
+    return *this;
+}
+
+template<class T>
+Stack<T>& Stack<T>::operator=(Stack<T>&& other) {
+    if (&other == this) {
+        return *this;
+    }
+
+    if (m_array) {
+        delete [] m_array;
+    }
+
+    m_size = std::exchange(other.m_size, DEFAULT_SIZE);
+    m_array = std::exchange(other.m_array, nullptr);
+
+    return *this;
+}
+
+template<class T>
 void Stack<T>::copyArray(T* dest, const T* src, const unsigned int& size) {
 	for (unsigned int i = 0; i < size; i++) {
 		*(dest + i) = *(src + i);
